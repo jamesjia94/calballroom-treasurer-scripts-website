@@ -1,6 +1,6 @@
 from __future__ import division
 import sys
-from collections import OrderedDict
+from collections import Counter
 import pprint
 
 # Returns the last name of a person.
@@ -43,7 +43,9 @@ def outputLessons(data):
 				# Get all the people in the class
 				names = line.split(",")
 				for name in names:
-					val = 1/len(names)
+					val = float("{0:.2f}".format(1/len(names)))
+					if val.is_integer():
+						val = int(val)
 					# If the name is already in the dictionary of people who are taking classes
 					if name in nameToLessons:
 						# If the teacher is already dictionary of classes that this person is taking
@@ -54,7 +56,7 @@ def outputLessons(data):
 							nameToLessons[name][teacherName] = val
 					# Since name isn't in the dictionary of people who are taking classes, store (name, dictionary of classes taken).
 					else:
-						nameToLessons[name] = OrderedDict()
+						nameToLessons[name] = Counter()
 						nameToLessons[name][teacherName] = val
 			# If this is an IP, add this class to the count of IPs taught by this teacher.
 			if isIP(line):
