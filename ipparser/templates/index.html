@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block content %}
+
+<div class="jumbotron text-center">
+  <div class="container">
+    <h1>IP Schedule Parser</h1>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    {% if error %} 
+      <div class="alert alert-danger text-center" role="alert">
+        Sorry, there was an issue parsing your file, please check the formatting guidelines. If this issue persists, contact the administrator.
+      </div>
+    {% endif %}
+    <div class="col-md-3">
+      <form enctype="multipart/form-data" action="/" method="post">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          {% buttons %}
+            <button type="submit" class="btn btn-primary">
+              Submit
+            </button>
+          {% endbuttons %}
+      </form>
+    </div>
+    <div class="col-md-9">
+      {% if results %}
+        {% for student, lessonMap in results.nameToLessons.items %}
+          <li>{{student}} - {% for teacher, lessons in lessonMap.items %} {{teacher}}: {{lessons}} {% endfor %}</li>
+        {% endfor %}
+        {% for teacher, ipCount in results.ipTotals.items %}
+          <li>{{teacher}} - {{ipCount}}</li>
+        {% endfor %}
+        {% for teacher, gtCount in results.gtTotals.items %}
+          <li>{{teacher}} - {{gtCount}}</li>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div> <!-- row -->
+   
+</div>
+{% endblock %}
