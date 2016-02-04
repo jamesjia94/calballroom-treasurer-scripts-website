@@ -15,8 +15,17 @@ def isIP(line):
 			return False
 	return True 
 
+# Returns true if the lesson is taught for free.
+def isFree(line):
+	for free_lesson in free_lessons:
+		if free_lesson in line.lower():
+			return True
+	return False 
+
 # List of strings that are considered "non-IP" lessons.
-non_IPs = ["rounds", "latin conditioning", "intermediate gt", "advanced gt", "beginner gt", "newcomer group", "bronze group", "silver group", "group technique", "ds group"]
+non_IPs = ["rounds", "intermediate gt", "advanced gt", "beginner gt", "newcomer gt", "bronze gt", "newcomer group", "bronze group", "silver group", "group technique", "ds group"]
+# List of strings that are free lessons.
+free_lessons = ["latin conditioning"]
 
 def outputLessons(data):
 	linebreak = True
@@ -58,6 +67,9 @@ def outputLessons(data):
 					else:
 						nameToLessons[name] = Counter()
 						nameToLessons[name][teacherName] = val
+			# If lesson is free, don't count it into IP or GT dicts.
+			if isFree(line):
+				continue
 			# If this is an IP, add this class to the count of IPs taught by this teacher.
 			if isIP(line):
 				if teacherName in counts:
