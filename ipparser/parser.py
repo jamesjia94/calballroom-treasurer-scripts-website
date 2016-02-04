@@ -52,6 +52,8 @@ def outputLessons(data):
 				# Get all the people in the class
 				names = line.split(",")
 				for name in names:
+					# Remove any leading or trailing whitespace.
+					name = name.strip()
 					val = float("{0:.2f}".format(1/len(names)))
 					if val.is_integer():
 						val = int(val)
