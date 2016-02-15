@@ -17,9 +17,9 @@ def index(request):
         if form.is_valid():
             try:
                 f = form.cleaned_data["file"]
-                (nameToLessons, IPTotals, GTTotals) = outputLessons(f)
+                (nameToLessons, IPTotals, GTTotals, freeLessons) = outputLessons(f)
                 nameToLessons = OrderedDict(sorted(nameToLessons.iteritems(), key= lambda (k,v): getLastName(k)))
-                return render(request, 'index.html', {'form': form, 'nameToLessons': nameToLessons, "ipTotals": IPTotals, "gtTotals": GTTotals})
+                return render(request, 'index.html', {'form': form, 'nameToLessons': nameToLessons, "ipTotals": IPTotals, "gtTotals": GTTotals, "freeLessons": freeLessons})
             except Exception as e:
                 traceback.print_exc()
                 return render(request, 'index.html', {"form": form, "error": True})
